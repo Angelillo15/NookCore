@@ -78,3 +78,4 @@ pluginYmlBungee = { id = "net.minecrell.plugin-yml.bungeecord", version.ref = "p
 pluginYmlPaper = { id = "net.minecrell.plugin-yml.paper", version.ref = "pluginYml" }
 blossom = { id = "net.kyori.blossom", version = "2.1.0" }
 grgit = { id = "org.ajoberstar.grgit", version = "5.2.1" }
+grgitPublish = { id = "org.ajoberstar.git-publish", version = "4.2.1" }
