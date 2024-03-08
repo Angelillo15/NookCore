@@ -34,7 +34,7 @@ public class Logger {
    *
    * @param message The message to log
    */
-  void info(String message) {
+  public void info(String message) {
     info(MiniMessage.miniMessage().deserialize("<white>" + message));
   }
 
@@ -43,7 +43,7 @@ public class Logger {
    *
    * @param message The message to log
    */
-  void warning(String message) {
+  public void warning(String message) {
     warning(Component.text(message).color(NamedTextColor.YELLOW));
   }
 
@@ -52,7 +52,7 @@ public class Logger {
    *
    * @param message The message to log
    */
-  void severe(String message) {
+  public void severe(String message) {
     severe(Component.text(message).color(NamedTextColor.RED));
   }
 
@@ -61,23 +61,23 @@ public class Logger {
    *
    * @param message The message to log
    */
-  void debug(String message) {
+  public void debug(String message) {
     debug(Component.text(message).color(NamedTextColor.GRAY));
   }
 
-  void info(String message, Object... args) {
+  public void info(String message, Object... args) {
     info(String.format(message, args));
   }
 
-  void warning(String message, Object... args) {
+  public void warning(String message, Object... args) {
     warning(String.format(message, args));
   }
 
-  void severe(String message, Object... args) {
+  public void severe(String message, Object... args) {
     severe(String.format(message, args));
   }
 
-  void debug(String message, Object... args) {
+  public void debug(String message, Object... args) {
     debug(String.format(message, args));
   }
 
