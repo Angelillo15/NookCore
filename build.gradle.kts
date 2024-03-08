@@ -11,6 +11,11 @@ repositories {
   mavenCentral()
 }
 
+allprojects {
+  version = rootProject.version.toString()
+  group = rootProject.group.toString()
+}
+
 subprojects {
   apply<JavaPlugin>()
   apply(plugin = "com.github.johnrengelman.shadow")
