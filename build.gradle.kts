@@ -1,6 +1,7 @@
 plugins {
   id("java")
   alias(libs.plugins.shadowJar)
+  id("maven-publish")
 }
 
 group = "com.nookure.core"
@@ -10,10 +11,11 @@ repositories {
   mavenCentral()
 }
 
-allprojects {
+subprojects {
   apply<JavaPlugin>()
   apply(plugin = "com.github.johnrengelman.shadow")
   apply(plugin = "maven-publish")
+  apply(plugin = "java-library")
 
   repositories {
     mavenCentral()
@@ -41,6 +43,18 @@ allprojects {
 
     withType<Javadoc> {
       options.encoding = "UTF-8"
+    }
+  }
+
+  publishing {
+    publications {
+      create<MavenPublication>("mavenJava") {
+        groupId = project.group.toString()
+        artifactId = project.name
+        version = rootProject.version.toString()
+
+        from(components["java"])
+      }
     }
   }
 
