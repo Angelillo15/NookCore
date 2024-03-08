@@ -1,6 +1,9 @@
+import org.eclipse.jgit.transport.CredentialsProvider
+
 plugins {
-  id("java")
+  alias(libs.plugins.grgitPublish)
   alias(libs.plugins.shadowJar)
+  id("java")
   id("maven-publish")
 }
 
@@ -57,6 +60,13 @@ subprojects {
   }
 
   publishing {
+    repositories {
+      maven {
+        name = "local"
+        url = uri("${rootProject.rootDir}/maven")
+      }
+    }
+
     publications {
       create<MavenPublication>("mavenJava") {
         groupId = project.group.toString()
@@ -71,5 +81,20 @@ subprojects {
   java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+  }
+}
+
+gitPublish {
+  repoUri = "https://github.com/Nookure/maven.git"
+  branch = "main"
+  fetchDepth = null
+  commitMessage = "NookureCore $version"
+
+  contents {
+    from("${rootProject.rootDir}/maven")
+  }
+
+  preserve {
+    include("**")
   }
 }
