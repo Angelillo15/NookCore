@@ -12,7 +12,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+maven/
 ### Eclipse ###
 .apt_generated
 .classpath
