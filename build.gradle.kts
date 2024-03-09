@@ -1,5 +1,3 @@
-import org.eclipse.jgit.transport.CredentialsProvider
-
 plugins {
   alias(libs.plugins.grgitPublish)
   alias(libs.plugins.shadowJar)
@@ -8,7 +6,7 @@ plugins {
 }
 
 group = "com.nookure.core"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
   mavenCentral()

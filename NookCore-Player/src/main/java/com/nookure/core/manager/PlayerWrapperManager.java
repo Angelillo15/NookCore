@@ -53,7 +53,6 @@ public class PlayerWrapperManager<T> {
     return Optional.ofNullable(playerWrappersByUUID.get(uuid));
   }
 
-
   /**
    * Gets a player by its player wrapper.
    *
@@ -69,7 +68,7 @@ public class PlayerWrapperManager<T> {
   /**
    * Adds a player wrapper to the manager.
    *
-   * @param player        the player that will be used as a key
+   * @param player            the player that will be used as a key
    * @param playerWrapperBase the player wrapper that will be used as a value
    */
   public void addPlayerWrapper(@NotNull T player, @NotNull PlayerWrapperBase playerWrapperBase) {
