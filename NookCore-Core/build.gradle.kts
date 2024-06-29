@@ -1,3 +1,3 @@
 dependencies {
-  api(libs.guice)
+  compileOnlyApi(libs.guice)
 }
