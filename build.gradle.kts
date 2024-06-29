@@ -1,12 +1,15 @@
 plugins {
   alias(libs.plugins.grgitPublish)
   alias(libs.plugins.shadowJar)
+  alias(libs.plugins.grgit)
   id("java")
   id("maven-publish")
 }
 
+val versionCode = "1.0.0"
+
+version = "${versionCode}-${grgit.head().abbreviatedId}"
 group = "com.nookure.core"
-version = "1.0.0"
 
 repositories {
   mavenCentral()
