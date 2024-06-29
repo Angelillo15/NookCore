@@ -24,10 +24,13 @@ pluginYml = "0.6.0"
 guava = "33.0.0-jre"
 apacheCommons = "3.14.0"
 s3 = "2.21.1"
-jooq = "3.19.5"
+ebean = "15.1.0"
 
 [libraries]
 hikariCP = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikariCP" }
+ebean = { group = "io.ebean", name = "ebean", version.ref = "ebean" }
+ebean-ddl-generator = { group = "io.ebean", name = "ebean-ddl-generator", version.ref = "ebean" }
+ebean-migration = { group = "io.ebean", name = "ebean-migration", version = "14.0.0" }
 invCore = { group = "com.github.hamza-cskn.obliviate-invs", name = "core", version.ref = "invApiVer" }
 invAdvancedSlots = { group = "com.github.hamza-cskn.obliviate-invs", name = "advancedslot", version.ref = "invApiVer" }
 invPagination = { group = "com.github.hamza-cskn.obliviate-invs", name = "pagination", version.ref = "invApiVer" }
@@ -65,7 +68,6 @@ scoreboard-modern = { group = "com.github.megavexnetwork.scoreboard-library", na
 scoreboard-packetevents = { group = "com.github.megavexnetwork.scoreboard-library", name = "scoreboard-library-packetevents", version.ref = "scoreboard" }
 scoreboard-8 = { group = "com.github.megavexnetwork.scoreboard-library", name = "scoreboard-library-v1_8_R3", version.ref = "scoreboard" }
 s3 = { group = "software.amazon.awssdk", name = "s3", version.ref = "s3"}
-jOOQ = { group = "org.jooq", name = "jooq", version.ref = "jooq"}
 
 [bundles]
 invAPI = ["invCore", "invAdvancedSlots", "invPagination", "configurableGui"]
