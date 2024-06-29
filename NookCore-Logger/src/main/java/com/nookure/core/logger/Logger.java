@@ -57,6 +57,16 @@ public class Logger {
   }
 
   /**
+   * Log a severe error to the console
+   *
+   * @param throwable The throwable to log
+   */
+  public void severe(Throwable throwable) {
+    severe(throwable.getMessage());
+    throwable.printStackTrace(System.err);
+  }
+
+  /**
    * Log a debug message to the console
    *
    * @param message The message to log
