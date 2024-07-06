@@ -18,7 +18,7 @@ import java.util.Optional;
 public class TemplateCommand extends Command {
   private final com.nookure.core.command.Command command;
   @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+  private PlayerWrapperManager<Player, ?> playerWrapperManager;
   @Inject
   private ConsoleCommandSender consoleCommandSender;
 

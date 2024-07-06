@@ -25,9 +25,9 @@ import java.util.stream.Stream;
  * @since 1.0.0
  */
 @Singleton
-public class PlayerWrapperManager<T> {
-  private final BiMap<T, PlayerWrapperBase> playerWrappersByPlayerClass = HashBiMap.create();
-  private final LinkedHashMap<UUID, PlayerWrapperBase> playerWrappersByUUID = new LinkedHashMap<>();
+public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
+  private final BiMap<T, P> playerWrappersByPlayerClass = HashBiMap.create();
+  private final LinkedHashMap<UUID, P> playerWrappersByUUID = new LinkedHashMap<>();
 
   /**
    * Gets a player wrapper by its player class.
@@ -60,7 +60,7 @@ public class PlayerWrapperManager<T> {
    * @return an optional containing the player if it exists
    */
   @NotNull
-  public Optional<T> getPlayer(@NotNull PlayerWrapperBase playerWrapperBase) {
+  public Optional<T> getPlayer(@NotNull P playerWrapperBase) {
     Objects.requireNonNull(playerWrapperBase, "PlayerWrapper cannot be null");
     return Optional.ofNullable(playerWrappersByPlayerClass.inverse().get(playerWrapperBase));
   }
@@ -71,7 +71,7 @@ public class PlayerWrapperManager<T> {
    * @param player            the player that will be used as a key
    * @param playerWrapperBase the player wrapper that will be used as a value
    */
-  public void addPlayerWrapper(@NotNull T player, @NotNull PlayerWrapperBase playerWrapperBase) {
+  public void addPlayerWrapper(@NotNull T player, @NotNull P playerWrapperBase) {
     Objects.requireNonNull(player, "Player cannot be null");
     Objects.requireNonNull(playerWrapperBase, "PlayerWrapper cannot be null");
 
@@ -96,7 +96,7 @@ public class PlayerWrapperManager<T> {
    *
    * @return a stream of player wrappers
    */
-  public Stream<PlayerWrapperBase> stream() {
+  public Stream<P> stream() {
     return playerWrappersByUUID.values().stream();
   }
 
