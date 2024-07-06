@@ -4,5 +4,6 @@ dependencies {
   api(project(":NookCore-Logger"))
   compileOnly(libs.configurateYaml)
   compileOnly(libs.paperApi)
+  compileOnly(libs.velocity)
   compileOnly(project(":NookCore-Config"))
 }
