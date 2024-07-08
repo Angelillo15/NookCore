@@ -1,7 +1,11 @@
 package com.nookure.core.config;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.TypeSerializer;
+import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
@@ -11,6 +15,9 @@ import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+
+import static java.util.Objects.requireNonNull;
 
 public class ConfigurationContainer<C> {
   private final AtomicReference<C> config;
@@ -58,10 +65,40 @@ public class ConfigurationContainer<C> {
   }
 
   public static <C> ConfigurationContainer<C> load(Path path, Class<C> clazz) throws IOException {
-    return load(path, clazz, "config.yml", null);
+    return load(path, clazz, "config.yml", null, null);
   }
 
-  public static <C> ConfigurationContainer<C> load(Path path, Class<C> clazz, String fileName, String header) throws IOException {
+  public record SerializerData<T>(Class<T> clazz, TypeSerializer<T> serializer) {
+  }
+
+  public static <C> ConfigurationContainer<C> load(
+      @NotNull Path path,
+      @NotNull Class<C> clazz,
+      @NotNull String fileName
+  ) throws IOException {
+    return load(path, clazz, fileName, null, null);
+  }
+
+  public static <C> ConfigurationContainer<C> load(
+      @NotNull Path path,
+      @NotNull Class<C> clazz,
+      @NotNull String fileName,
+      @Nullable String header
+  ) throws IOException {
+    return load(path, clazz, fileName, header, null);
+  }
+
+  public static <C> ConfigurationContainer<C> load(
+      @NotNull Path path,
+      @NotNull Class<C> clazz,
+      @NotNull String fileName,
+      @Nullable String header,
+      @Nullable Consumer<TypeSerializerCollection.Builder> serializerBuilder
+  ) throws IOException {
+    requireNonNull(path, "Path cannot be null");
+    requireNonNull(clazz, "Class cannot be null");
+    requireNonNull(fileName, "File name cannot be null");
+
     path = path.resolve(fileName);
     final boolean firstCreation = Files.notExists(path);
     final YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
@@ -71,6 +108,12 @@ public class ConfigurationContainer<C> {
         .defaultOptions(opts -> {
           if (header != null) {
             opts = opts.header(header);
+          }
+
+          if (serializerBuilder != null) {
+            TypeSerializerCollection.Builder builder = TypeSerializerCollection.builder();
+            serializerBuilder.accept(builder);
+            opts = opts.serializers(builder.build());
           }
 
           opts = opts.shouldCopyDefaults(true);
