@@ -68,9 +68,6 @@ public class ConfigurationContainer<C> {
     return load(path, clazz, "config.yml", null, null);
   }
 
-  public record SerializerData<T>(Class<T> clazz, TypeSerializer<T> serializer) {
-  }
-
   public static <C> ConfigurationContainer<C> load(
       @NotNull Path path,
       @NotNull Class<C> clazz,
