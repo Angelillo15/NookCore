@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -75,9 +76,14 @@ public abstract class CommandParent extends Command {
 
 
     subCommandData.forEach((name, data) -> {
-      Component component = Component.text("|").style(Style.style(color, TextDecoration.BOLD))
-          .append(Component.text(" /" + label + " " + data.name() + " ").style(Style.style(NamedTextColor.WHITE)))
-          .append(Component.text("- " + data.description()).style(Style.style(NamedTextColor.DARK_GRAY)));
+      final Component component = MiniMessage.miniMessage().deserialize(
+          String.format(
+              "<b>|</b> <white>/%s %s</white> - <gray>%s</gray>",
+              label,
+              data.name(),
+              data.description()
+          )
+      );
 
       sender.sendMessage(component);
     });
