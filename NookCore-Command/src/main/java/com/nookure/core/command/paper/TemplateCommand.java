@@ -18,7 +18,7 @@ import java.util.Optional;
 public class TemplateCommand<P extends PlayerWrapperBase> extends Command {
   private final com.nookure.core.command.Command command;
   @Inject
-  private PlayerWrapperManager<Player, PlayerWrapperBase> playerWrapperManager;
+  private PlayerWrapperManager<Player, P> playerWrapperManager;
   @Inject
   private ConsoleCommandSender consoleCommandSender;
 
@@ -62,7 +62,7 @@ public class TemplateCommand<P extends PlayerWrapperBase> extends Command {
   @Override
   public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
     if (sender instanceof Player bukkitPlayer) {
-      Optional<PlayerWrapperBase> playerWrapper = playerWrapperManager.getPlayerWrapper(bukkitPlayer.getUniqueId());
+      Optional<P> playerWrapper = playerWrapperManager.getPlayerWrapper(bukkitPlayer.getUniqueId());
 
       return playerWrapper.map(wrapper -> command.onTabComplete(wrapper, alias, List.of(args))).orElseGet(List::of);
     } else {
