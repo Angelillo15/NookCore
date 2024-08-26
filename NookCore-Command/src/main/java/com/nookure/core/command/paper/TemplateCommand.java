@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class TemplateCommand extends Command {
+public class TemplateCommand<P extends PlayerWrapperBase> extends Command {
   private final com.nookure.core.command.Command command;
   @Inject
-  private PlayerWrapperManager<Player, ?> playerWrapperManager;
+  private PlayerWrapperManager<Player, PlayerWrapperBase> playerWrapperManager;
   @Inject
   private ConsoleCommandSender consoleCommandSender;
 

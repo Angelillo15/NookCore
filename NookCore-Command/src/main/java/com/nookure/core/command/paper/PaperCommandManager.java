@@ -3,6 +3,7 @@ package com.nookure.core.command.paper;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import com.nookure.core.PlayerWrapperBase;
 import com.nookure.core.command.Command;
 import com.nookure.core.command.CommandManager;
 import com.nookure.core.command.config.CommandConfig;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @Singleton
-public class PaperCommandManager extends CommandManager {
+public class PaperCommandManager<P extends PlayerWrapperBase> extends CommandManager {
   private static final CommandMap commandMap;
 
   static {
@@ -33,7 +34,7 @@ public class PaperCommandManager extends CommandManager {
 
   @Override
   public void registerCommand(@NotNull Command command) {
-    TemplateCommand templateCommand = new TemplateCommand(command);
+    TemplateCommand<P> templateCommand = new TemplateCommand(command);
     injector.injectMembers(templateCommand);
     CommandPartial commandPartial;
 

@@ -7,6 +7,7 @@ import com.nookure.core.PlayerWrapperBase;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 @Singleton
 public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
   private final BiMap<T, P> playerWrappersByPlayerClass = HashBiMap.create();
-  private final LinkedHashMap<UUID, P> playerWrappersByUUID = new LinkedHashMap<>();
+  private final Map<UUID, P> playerWrappersByUUID = new ConcurrentHashMap<>();
 
   /**
    * Gets a player wrapper by its player class.
@@ -36,9 +37,11 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
    * @return an optional containing the player wrapper if it exists
    */
   @NotNull
-  public Optional<PlayerWrapperBase> getPlayerWrapper(@NotNull T player) {
+  public Optional<P> getPlayerWrapper(@NotNull T player) {
     Objects.requireNonNull(player, "Player cannot be null");
-    return Optional.ofNullable(playerWrappersByPlayerClass.get(player));
+    synchronized (playerWrappersByPlayerClass) {
+      return Optional.ofNullable(playerWrappersByPlayerClass.get(player));
+    }
   }
 
   /**
@@ -48,7 +51,7 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
    * @return an optional containing the player wrapper if it exists
    */
   @NotNull
-  public Optional<PlayerWrapperBase> getPlayerWrapper(@NotNull UUID uuid) {
+  public Optional<P> getPlayerWrapper(@NotNull UUID uuid) {
     Objects.requireNonNull(uuid, "UUID cannot be null");
     return Optional.ofNullable(playerWrappersByUUID.get(uuid));
   }
@@ -62,7 +65,9 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
   @NotNull
   public Optional<T> getPlayer(@NotNull P playerWrapperBase) {
     Objects.requireNonNull(playerWrapperBase, "PlayerWrapper cannot be null");
-    return Optional.ofNullable(playerWrappersByPlayerClass.inverse().get(playerWrapperBase));
+    synchronized (playerWrappersByPlayerClass) {
+      return Optional.ofNullable(playerWrappersByPlayerClass.inverse().get(playerWrapperBase));
+    }
   }
 
   /**
@@ -74,8 +79,9 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
   public void addPlayerWrapper(@NotNull T player, @NotNull P playerWrapperBase) {
     Objects.requireNonNull(player, "Player cannot be null");
     Objects.requireNonNull(playerWrapperBase, "PlayerWrapper cannot be null");
-
-    playerWrappersByPlayerClass.put(player, playerWrapperBase);
+    synchronized (playerWrappersByPlayerClass) {
+      playerWrappersByPlayerClass.put(player, playerWrapperBase);
+    }
     playerWrappersByUUID.put(playerWrapperBase.getUniqueId(), playerWrapperBase);
   }
 
@@ -86,9 +92,12 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
    */
   public void removePlayerWrapper(@NotNull T player) {
     Objects.requireNonNull(player, "Player cannot be null");
-
-    PlayerWrapperBase playerWrapperBase = playerWrappersByPlayerClass.remove(player);
-    playerWrappersByUUID.remove(playerWrapperBase.getUniqueId());
+    synchronized (playerWrappersByPlayerClass) {
+      P playerWrapperBase = playerWrappersByPlayerClass.remove(player);
+      if (playerWrapperBase != null) {
+        playerWrappersByUUID.remove(playerWrapperBase.getUniqueId());
+      }
+    }
   }
 
   /**
@@ -104,7 +113,9 @@ public class PlayerWrapperManager<T, P extends PlayerWrapperBase> {
    * Clears all the mappings from the manager.
    */
   public void clear() {
-    playerWrappersByPlayerClass.clear();
+    synchronized (playerWrappersByPlayerClass) {
+      playerWrappersByPlayerClass.clear();
+    }
     playerWrappersByUUID.clear();
   }
 }

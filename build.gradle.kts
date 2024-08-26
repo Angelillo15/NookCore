@@ -6,7 +6,7 @@ plugins {
   id("maven-publish")
 }
 
-val versionCode = "1.0.0"
+val versionCode = "1.1.0"
 
 version = "${versionCode}-${grgit.head().abbreviatedId}"
 group = "com.nookure.core"
