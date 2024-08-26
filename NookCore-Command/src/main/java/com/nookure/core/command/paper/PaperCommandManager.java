@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import com.nookure.core.PlayerWrapperBase;
 import com.nookure.core.command.Command;
 import com.nookure.core.command.CommandManager;
+import com.nookure.core.command.annotation.FallbackCommandName;
 import com.nookure.core.command.config.CommandConfig;
 import com.nookure.core.command.config.CommandPartial;
 import com.nookure.core.config.ConfigurationContainer;
@@ -31,6 +32,9 @@ public class PaperCommandManager<P extends PlayerWrapperBase> extends CommandMan
   private Injector injector;
   @Inject
   private ConfigurationContainer<CommandConfig> commandConfig;
+  @Inject
+  @FallbackCommandName
+  private String fallbackCommandName;
 
   @Override
   public void registerCommand(@NotNull Command command) {
@@ -70,7 +74,7 @@ public class PaperCommandManager<P extends PlayerWrapperBase> extends CommandMan
     if (commandPartial.usage() != null && !commandPartial.usage().isEmpty())
       templateCommand.setUsage(commandPartial.usage());
 
-    commandMap.register("nkstaff", templateCommand);
+    commandMap.register(fallbackCommandName == null ? "nookure" : fallbackCommandName, templateCommand);
     command.prepare();
   }
 
