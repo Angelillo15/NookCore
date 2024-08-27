@@ -46,7 +46,6 @@ public abstract class CommandParent extends Command {
   @PluginLoggerColor
   private NamedTextColor color;
 
-
   @Override
   public void onCommand(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
     if (args.isEmpty()) {
@@ -63,7 +62,7 @@ public abstract class CommandParent extends Command {
 
     Command command = optionalCommand.get();
 
-    if (!sender.hasPermission(command.getCommandData().permission())) {
+    if (command.getCommandData().permission() != null && !sender.hasPermission(command.getCommandData().permission())) {
       sender.sendMiniMessage(getNoPermissionMessage());
       return;
     }
