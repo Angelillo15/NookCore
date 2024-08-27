@@ -62,7 +62,7 @@ public abstract class CommandParent extends Command {
 
     Command command = optionalCommand.get();
 
-    if (command.getCommandData().permission() != null && !sender.hasPermission(command.getCommandData().permission())) {
+    if (!command.getCommandData().permission().isEmpty() && !sender.hasPermission(command.getCommandData().permission())) {
       sender.sendMiniMessage(getNoPermissionMessage());
       return;
     }
