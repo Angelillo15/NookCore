@@ -24,13 +24,13 @@ pluginYml = "0.6.0"
 guava = "33.0.0-jre"
 apacheCommons = "3.14.0"
 s3 = "2.21.1"
-ebean = "15.1.0"
+ebean = "15.5.0"
 
 [libraries]
 hikariCP = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikariCP" }
 ebean = { group = "io.ebean", name = "ebean", version.ref = "ebean" }
 ebean-ddl-generator = { group = "io.ebean", name = "ebean-ddl-generator", version.ref = "ebean" }
-ebean-migration = { group = "io.ebean", name = "ebean-migration", version = "14.0.0" }
+ebean-migration = { group = "io.ebean", name = "ebean-migration", version = "14.1.0" }
 invCore = { group = "com.github.hamza-cskn.obliviate-invs", name = "core", version.ref = "invApiVer" }
 invAdvancedSlots = { group = "com.github.hamza-cskn.obliviate-invs", name = "advancedslot", version.ref = "invApiVer" }
 invPagination = { group = "com.github.hamza-cskn.obliviate-invs", name = "pagination", version.ref = "invApiVer" }
